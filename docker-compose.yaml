@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13
+    container_name: quizdb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: quizdb_password1234
+      POSTGRES_DB: quizdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: quiz_app
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_USER: postgres
+      DB_PASSWORD: quizdb_password1234
+      DB_NAME: quizdb
+      GIN_MODE: release
+
+volumes:
+  postgres_data:
