@@ -33,7 +33,6 @@ func ConnectDatabase() {
 }
 
 func Migrate() {
-	// Пытаемся провести миграции моделей
 	log.Println("Starting database migrations...")
 	err := DB.AutoMigrate(
 		&models.Quiz{},
