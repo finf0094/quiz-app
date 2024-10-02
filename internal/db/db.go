@@ -19,9 +19,23 @@ func ConnectDatabase() {
         config.AppConfig.Database.Name,
         config.AppConfig.Database.Port,
     )
+
+    log.Println("Connecting to the database...")
     var err error
     DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})
     if err != nil {
         log.Fatalf("Failed to connect to the database: %v", err)
     }
+
+    log.Println("Successfully connected to the database.")
+}
+
+func Migrate() {
+    // Пытаемся провести миграции моделей
+    log.Println("Starting database migrations...")
+    err := DB.AutoMigrate()
+    if err != nil {
+        log.Fatalf("Failed to migrate database: %v", err)
+    }
+    log.Println("Database migrations completed successfully.")
 }
