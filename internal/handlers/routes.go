@@ -1,19 +1,19 @@
 package handlers
 
 import (
-	"net/http"
-    "github.com/gin-gonic/gin"
+	"github.com/finf0094/quiz-app/internal/services"
+	"github.com/gin-gonic/gin"
 )
 
-func SetupRoutes(r *gin.Engine) {
-    r.GET("/quizzes", GetQuizzes)
-    // r.POST("/responses", CreateResponse)
-}
+func SetupRoutes(r *gin.Engine, quizService services.QuizService, responseService services.ResponseService) {
+	quizHandler := NewQuizHandler(quizService)
+	responseHandler := NewResponseHandler(responseService)
 
+	// Маршруты для работы с викторинами
+	r.GET("/quizzes", quizHandler.GetQuizzes)
+	r.GET("/quizzes/:id", quizHandler.GetQuizByID)
+	r.POST("/quizzes", quizHandler.CreateQuiz)
 
-func GetQuizzes(c *gin.Context) {
-    // Заглушка
-    c.JSON(http.StatusOK, gin.H{
-        "message": "List of quizzes",
-    })
+	// Маршруты для работы с ответами пользователей
+	r.POST("/responses", responseHandler.CreateResponse)
 }
