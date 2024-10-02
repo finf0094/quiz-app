@@ -12,7 +12,7 @@ type Quiz struct {
 	Title       string     `json:"title"`
 	Description string     `json:"description"`
 	CreatedAt   time.Time  `json:"created_at"`
-	Questions   []Question `gorm:"foreignKey:QuizID" json:"questions,omitempty"` // Add this line
+	Questions   []Question `gorm:"foreignKey:QuizID" json:"questions,omitempty"`
 }
 
 // Question представляет вопрос в опросе
